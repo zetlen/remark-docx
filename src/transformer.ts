@@ -101,9 +101,13 @@ export type ImageData = {
 
 export type ImageResolver = (url: string) => Promise<ImageData> | ImageData;
 
-type Decoration = Readonly<{
-  [key in (mdast.Emphasis | mdast.Strong | mdast.Delete)["type"]]?: true;
-}>;
+type Decoration = Readonly<
+  {
+    [key in (mdast.Emphasis | mdast.Strong | mdast.Delete)["type"]]?: true;
+  } & {
+    style?: string;
+  }
+>;
 
 type ListInfo = Readonly<{
   level: number;
@@ -508,6 +512,7 @@ const buildText = (text: string, deco: Decoration) => {
     bold: deco.strong,
     italics: deco.emphasis,
     strike: deco.delete,
+    style: deco.style,
   });
 };
 
@@ -519,7 +524,14 @@ const buildLink = (
   { children, url, title: _title }: mdast.Link,
   ctx: Context
 ) => {
-  const { nodes } = convertNodes(children, ctx);
+  const { nodes } = convertNodes(children, {
+    ...ctx,
+    deco: {
+      ...ctx.deco,
+      style: "Hyperlink",
+    },
+  });
+  console.error("blorp", ...nodes);
   return new ExternalHyperlink({
     link: url,
     children: nodes,
