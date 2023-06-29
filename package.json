@@ -1,5 +1,8 @@
 {
   "name": "@jzetlen/remark-docx",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "0.1.5",
   "description": "remark plugin to compile markdown to docx (Microsoft Word, Office Open XML).",
   "main": "lib/index.js",
