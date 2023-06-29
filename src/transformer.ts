@@ -531,7 +531,6 @@ const buildLink = (
       style: "Hyperlink",
     },
   });
-  console.error("blorp", ...nodes);
   return new ExternalHyperlink({
     link: url,
     children: nodes,
