@@ -338,22 +338,22 @@ const buildParagraph = ({ children }: mdast.Paragraph, ctx: Context) => {
     indent:
       ctx.indent > 0
         ? {
-            start: convertInchesToTwip(INDENT * ctx.indent),
-          }
+          start: convertInchesToTwip(INDENT * ctx.indent),
+        }
         : undefined,
     ...(list &&
       (list.ordered
         ? {
-            numbering: {
-              reference: ORDERED_LIST_REF,
-              level: list.level,
-            },
-          }
+          numbering: {
+            reference: ORDERED_LIST_REF,
+            level: list.level,
+          },
+        }
         : {
-            bullet: {
-              level: list.level,
-            },
-          })),
+          bullet: {
+            level: list.level,
+          },
+        })),
   });
 };
 
@@ -420,6 +420,14 @@ const buildListItem = (
   const { nodes } = convertNodes(children, {
     ...ctx,
     ...(ctx.list && { list: { ...ctx.list, checked: checked ?? undefined } }),
+    deco: {
+      ...ctx.deco,
+      style: checked
+        ? "ListItemCheckbox"
+        : ctx.list?.ordered
+          ? "ListItemNumbered"
+          : "ListItem",
+    },
   });
   return nodes;
 };
