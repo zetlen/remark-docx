@@ -32,7 +32,7 @@ Set output type of `VFile.result`. `buffer` is `Promise<Buffer>`. `blob` is `Pro
 
 #### Defined in
 
-[src/transformer.ts:137](https://github.com/inokawa/remark-docx/blob/8b2781d/src/transformer.ts#L137)
+[src/transformer.ts:141](https://github.com/zetlen/remark-docx/blob/bf9b4f0/src/transformer.ts#L141)
 
 ___
 
@@ -44,7 +44,7 @@ ___
 
 #### Defined in
 
-[src/transformer.ts:141](https://github.com/inokawa/remark-docx/blob/8b2781d/src/transformer.ts#L141)
+[src/transformer.ts:145](https://github.com/zetlen/remark-docx/blob/bf9b4f0/src/transformer.ts#L145)
 
 ___
 
