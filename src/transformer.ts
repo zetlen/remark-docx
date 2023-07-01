@@ -20,6 +20,8 @@ import {
   FootnoteReferenceRun,
   CheckBox,
   IBaseParagraphStyleOptions,
+  ISectionPropertiesOptions,
+  ISectionOptions,
 } from "docx";
 import type { IPropertiesOptions } from "docx/build/file/core-properties";
 import type * as mdast from "./models/mdast";
@@ -33,8 +35,9 @@ type DefaultStyles = IPropertiesOptions["styles"] & {
 };
 
 const ORDERED_LIST_REF = "ordered";
-const INDENT = 0.5;
-const DEFAULT_NUMBERINGS: ILevelsOptions[] = [
+const createNumberingLevels: (indentWidth: number) => ILevelsOptions[] = (
+  indentWidth
+) => [
   {
     level: 0,
     format: LevelFormat.DECIMAL,
@@ -48,7 +51,7 @@ const DEFAULT_NUMBERINGS: ILevelsOptions[] = [
     alignment: AlignmentType.START,
     style: {
       paragraph: {
-        indent: { start: convertInchesToTwip(INDENT * 1) },
+        indent: { start: convertInchesToTwip(indentWidth * 1) },
       },
     },
   },
@@ -59,7 +62,7 @@ const DEFAULT_NUMBERINGS: ILevelsOptions[] = [
     alignment: AlignmentType.START,
     style: {
       paragraph: {
-        indent: { start: convertInchesToTwip(INDENT * 2) },
+        indent: { start: convertInchesToTwip(indentWidth * 2) },
       },
     },
   },
@@ -70,7 +73,7 @@ const DEFAULT_NUMBERINGS: ILevelsOptions[] = [
     alignment: AlignmentType.START,
     style: {
       paragraph: {
-        indent: { start: convertInchesToTwip(INDENT * 3) },
+        indent: { start: convertInchesToTwip(indentWidth * 3) },
       },
     },
   },
@@ -81,7 +84,7 @@ const DEFAULT_NUMBERINGS: ILevelsOptions[] = [
     alignment: AlignmentType.START,
     style: {
       paragraph: {
-        indent: { start: convertInchesToTwip(INDENT * 4) },
+        indent: { start: convertInchesToTwip(indentWidth * 4) },
       },
     },
   },
@@ -92,7 +95,7 @@ const DEFAULT_NUMBERINGS: ILevelsOptions[] = [
     alignment: AlignmentType.START,
     style: {
       paragraph: {
-        indent: { start: convertInchesToTwip(INDENT * 5) },
+        indent: { start: convertInchesToTwip(indentWidth * 5) },
       },
     },
   },
@@ -126,6 +129,7 @@ type Context = Readonly<{
   deco: Decoration;
   images: ImageDataMap;
   indent: number;
+  indentWidth: number;
   list?: ListInfo;
 }>;
 
@@ -141,6 +145,7 @@ export interface DocxOptions
     | "revision"
     | "background"
   > {
+  indentWidth?: number;
   /**
    * Set output type of `VFile.result`. `buffer` is `Promise<Buffer>`. `blob` is `Promise<Blob>`.
    */
@@ -152,7 +157,11 @@ export interface DocxOptions
   /**
    * Additional styles for markdown elements that don't map on to docx Paragraphs, such as lists
    */
-  styles: DefaultStyles;
+  styles?: DefaultStyles;
+  /**
+   * Margins, headers, footers, borders.
+   */
+  pageSetup?: ISectionPropertiesOptions["page"];
 }
 
 type DocxChild = Paragraph | Table | TableOfContents;
@@ -171,6 +180,7 @@ export interface ConvertNodesReturn {
 export const mdastToDocx = async (
   node: mdast.Root,
   {
+    indentWidth = 0.5,
     output = "buffer",
     title,
     subject,
@@ -180,15 +190,21 @@ export const mdastToDocx = async (
     lastModifiedBy,
     revision,
     styles,
+    pageSetup,
     background,
   }: DocxOptions,
   images: ImageDataMap
 ): Promise<any> => {
   const { nodes, footnotes } = convertNodes(node.children, {
+    indentWidth,
     deco: {},
     images,
     indent: 0,
   });
+  const rootSection: ISectionOptions = {
+    children: nodes as DocxChild[],
+    properties: pageSetup && {page: pageSetup}
+  };
   const doc = new Document({
     title,
     subject,
@@ -200,12 +216,12 @@ export const mdastToDocx = async (
     styles,
     background,
     footnotes,
-    sections: [{ children: nodes as DocxChild[] }],
+    sections: [rootSection],
     numbering: {
       config: [
         {
           reference: ORDERED_LIST_REF,
-          levels: DEFAULT_NUMBERINGS,
+          levels: createNumberingLevels(indentWidth),
         },
       ],
     },
@@ -348,22 +364,22 @@ const buildParagraph = ({ children }: mdast.Paragraph, ctx: Context) => {
     indent:
       ctx.indent > 0
         ? {
-          start: convertInchesToTwip(INDENT * ctx.indent),
-        }
+            start: convertInchesToTwip(ctx.indentWidth * ctx.indent),
+          }
         : undefined,
     ...(list &&
       (list.ordered
         ? {
-          numbering: {
-            reference: ORDERED_LIST_REF,
-            level: list.level,
-          },
-        }
+            numbering: {
+              reference: ORDERED_LIST_REF,
+              level: list.level,
+            },
+          }
         : {
-          bullet: {
-            level: list.level,
-          },
-        })),
+            bullet: {
+              level: list.level,
+            },
+          })),
   });
 };
 
@@ -435,8 +451,8 @@ const buildListItem = (
       style: checked
         ? "ListItemCheckbox"
         : ctx.list?.ordered
-          ? "ListItemNumbered"
-          : "ListItem",
+        ? "ListItemNumbered"
+        : "ListItem",
     },
   });
   return nodes;
