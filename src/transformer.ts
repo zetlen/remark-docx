@@ -19,11 +19,18 @@ import {
   ILevelsOptions,
   FootnoteReferenceRun,
   CheckBox,
+  IBaseParagraphStyleOptions,
 } from "docx";
 import type { IPropertiesOptions } from "docx/build/file/core-properties";
 import type * as mdast from "./models/mdast";
 import { parseLatex } from "./latex";
 import { invariant, unreachable } from "./utils";
+
+type DefaultStyles = IPropertiesOptions["styles"] & {
+  listItem: IBaseParagraphStyleOptions;
+  listItemOrdered: IBaseParagraphStyleOptions;
+  listItemCheckbox: IBaseParagraphStyleOptions;
+};
 
 const ORDERED_LIST_REF = "ordered";
 const INDENT = 0.5;
@@ -132,7 +139,6 @@ export interface DocxOptions
     | "description"
     | "lastModifiedBy"
     | "revision"
-    | "styles"
     | "background"
   > {
   /**
@@ -143,6 +149,10 @@ export interface DocxOptions
    * **You must set** if your markdown includes images. See example for [browser](https://github.com/inokawa/remark-docx/blob/main/stories/playground.stories.tsx) and [Node.js](https://github.com/inokawa/remark-docx/blob/main/src/index.spec.ts).
    */
   imageResolver?: ImageResolver;
+  /**
+   * Additional styles for markdown elements that don't map on to docx Paragraphs, such as lists
+   */
+  styles: DefaultStyles;
 }
 
 type DocxChild = Paragraph | Table | TableOfContents;
