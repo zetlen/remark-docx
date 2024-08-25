@@ -2,7 +2,7 @@
 
 ## Hierarchy
 
-- `Pick`<`IPropertiesOptions`, ``"title"`` \| ``"subject"`` \| ``"creator"`` \| ``"keywords"`` \| ``"description"`` \| ``"lastModifiedBy"`` \| ``"revision"`` \| ``"styles"`` \| ``"background"``\>
+- `Pick`<`IPropertiesOptions`, ``"title"`` \| ``"subject"`` \| ``"creator"`` \| ``"keywords"`` \| ``"description"`` \| ``"lastModifiedBy"`` \| ``"revision"`` \| ``"background"``\>
 
   ↳ **`DocxOptions`**
 
@@ -10,8 +10,11 @@
 
 ### Properties
 
+- [indentWidth](DocxOptions.md#indentwidth)
 - [output](DocxOptions.md#output)
 - [imageResolver](DocxOptions.md#imageresolver)
+- [styles](DocxOptions.md#styles)
+- [pageSetup](DocxOptions.md#pagesetup)
 - [title](DocxOptions.md#title)
 - [subject](DocxOptions.md#subject)
 - [creator](DocxOptions.md#creator)
@@ -19,10 +22,19 @@
 - [description](DocxOptions.md#description)
 - [lastModifiedBy](DocxOptions.md#lastmodifiedby)
 - [revision](DocxOptions.md#revision)
-- [styles](DocxOptions.md#styles)
 - [background](DocxOptions.md#background)
 
 ## Properties
+
+### indentWidth
+
+• `Optional` **indentWidth**: `number`
+
+#### Defined in
+
+[src/transformer.ts:148](https://github.com/zetlen/remark-docx/blob/475dceb/src/transformer.ts#L148)
+
+___
 
 ### output
 
@@ -32,7 +44,7 @@ Set output type of `VFile.result`. `buffer` is `Promise<Buffer>`. `blob` is `Pro
 
 #### Defined in
 
-[src/transformer.ts:141](https://github.com/zetlen/remark-docx/blob/bf9b4f0/src/transformer.ts#L141)
+[src/transformer.ts:152](https://github.com/zetlen/remark-docx/blob/475dceb/src/transformer.ts#L152)
 
 ___
 
@@ -44,7 +56,41 @@ ___
 
 #### Defined in
 
-[src/transformer.ts:145](https://github.com/zetlen/remark-docx/blob/bf9b4f0/src/transformer.ts#L145)
+[src/transformer.ts:156](https://github.com/zetlen/remark-docx/blob/475dceb/src/transformer.ts#L156)
+
+___
+
+### styles
+
+• `Optional` **styles**: `IStylesOptions` & { `listItem`: `IBaseParagraphStyleOptions` ; `listItemOrdered`: `IBaseParagraphStyleOptions` ; `listItemCheckbox`: `IBaseParagraphStyleOptions`  }
+
+Additional styles for markdown elements that don't map on to docx Paragraphs, such as lists
+
+#### Defined in
+
+[src/transformer.ts:160](https://github.com/zetlen/remark-docx/blob/475dceb/src/transformer.ts#L160)
+
+___
+
+### pageSetup
+
+• `Optional` **pageSetup**: `Object`
+
+Margins, headers, footers, borders.
+
+#### Type declaration
+
+| Name | Type |
+| :------ | :------ |
+| `size?` | `IPageSizeAttributes` |
+| `margin?` | `IPageMarginAttributes` |
+| `pageNumbers?` | `IPageNumberTypeAttributes` |
+| `borders?` | `IPageBordersOptions` |
+| `textDirection?` | `PageTextDirectionType` |
+
+#### Defined in
+
+[src/transformer.ts:164](https://github.com/zetlen/remark-docx/blob/475dceb/src/transformer.ts#L164)
 
 ___
 
@@ -143,20 +189,6 @@ Pick.revision
 #### Defined in
 
 node_modules/docx/build/file/core-properties/properties.d.ts:18
-
-___
-
-### styles
-
-• `Optional` `Readonly` **styles**: `IStylesOptions`
-
-#### Inherited from
-
-Pick.styles
-
-#### Defined in
-
-node_modules/docx/build/file/core-properties/properties.d.ts:20
 
 ___
 
