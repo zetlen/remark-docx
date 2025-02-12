@@ -34,6 +34,8 @@ type DefaultStyles = IPropertiesOptions["styles"] & {
   listItemCheckbox: IBaseParagraphStyleOptions;
 };
 
+type Fonts = IPropertiesOptions["fonts"]
+
 const ORDERED_LIST_REF = "ordered";
 const createNumberingLevels: (indentWidth: number) => ILevelsOptions[] = (
   indentWidth
@@ -159,6 +161,10 @@ export interface DocxOptions
    */
   styles?: DefaultStyles;
   /**
+   * Additional fonts to embed.
+   */
+  fonts?: Fonts;
+  /**
    * Margins, headers, footers, borders.
    */
   pageSetup?: ISectionPropertiesOptions["page"];
@@ -190,6 +196,7 @@ export const mdastToDocx = async (
     lastModifiedBy,
     revision,
     styles,
+    fonts,
     pageSetup,
     background,
   }: DocxOptions,
@@ -213,6 +220,7 @@ export const mdastToDocx = async (
     description,
     lastModifiedBy,
     revision,
+    fonts,
     styles,
     background,
     footnotes,
