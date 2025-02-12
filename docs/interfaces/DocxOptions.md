@@ -14,6 +14,7 @@
 - [output](DocxOptions.md#output)
 - [imageResolver](DocxOptions.md#imageresolver)
 - [styles](DocxOptions.md#styles)
+- [fonts](DocxOptions.md#fonts)
 - [pageSetup](DocxOptions.md#pagesetup)
 - [title](DocxOptions.md#title)
 - [subject](DocxOptions.md#subject)
@@ -32,7 +33,7 @@
 
 #### Defined in
 
-[src/transformer.ts:148](https://github.com/zetlen/remark-docx/blob/475dceb/src/transformer.ts#L148)
+[src/transformer.ts:150](https://github.com/zetlen/remark-docx/blob/ebec568/src/transformer.ts#L150)
 
 ___
 
@@ -44,7 +45,7 @@ Set output type of `VFile.result`. `buffer` is `Promise<Buffer>`. `blob` is `Pro
 
 #### Defined in
 
-[src/transformer.ts:152](https://github.com/zetlen/remark-docx/blob/475dceb/src/transformer.ts#L152)
+[src/transformer.ts:154](https://github.com/zetlen/remark-docx/blob/ebec568/src/transformer.ts#L154)
 
 ___
 
@@ -56,7 +57,7 @@ ___
 
 #### Defined in
 
-[src/transformer.ts:156](https://github.com/zetlen/remark-docx/blob/475dceb/src/transformer.ts#L156)
+[src/transformer.ts:158](https://github.com/zetlen/remark-docx/blob/ebec568/src/transformer.ts#L158)
 
 ___
 
@@ -68,7 +69,19 @@ Additional styles for markdown elements that don't map on to docx Paragraphs, su
 
 #### Defined in
 
-[src/transformer.ts:160](https://github.com/zetlen/remark-docx/blob/475dceb/src/transformer.ts#L160)
+[src/transformer.ts:162](https://github.com/zetlen/remark-docx/blob/ebec568/src/transformer.ts#L162)
+
+___
+
+### fonts
+
+• `Optional` **fonts**: readonly `FontOptions`[]
+
+Additional fonts to embed.
+
+#### Defined in
+
+[src/transformer.ts:166](https://github.com/zetlen/remark-docx/blob/ebec568/src/transformer.ts#L166)
 
 ___
 
@@ -86,11 +99,11 @@ Margins, headers, footers, borders.
 | `margin?` | `IPageMarginAttributes` |
 | `pageNumbers?` | `IPageNumberTypeAttributes` |
 | `borders?` | `IPageBordersOptions` |
-| `textDirection?` | `PageTextDirectionType` |
+| `textDirection?` | ``"lrTb"`` \| ``"tbRl"`` |
 
 #### Defined in
 
-[src/transformer.ts:164](https://github.com/zetlen/remark-docx/blob/475dceb/src/transformer.ts#L164)
+[src/transformer.ts:170](https://github.com/zetlen/remark-docx/blob/ebec568/src/transformer.ts#L170)
 
 ___
 
@@ -104,7 +117,7 @@ Pick.title
 
 #### Defined in
 
-node_modules/docx/build/file/core-properties/properties.d.ts:12
+node_modules/docx/build/file/core-properties/properties.d.ts:13
 
 ___
 
@@ -118,7 +131,7 @@ Pick.subject
 
 #### Defined in
 
-node_modules/docx/build/file/core-properties/properties.d.ts:13
+node_modules/docx/build/file/core-properties/properties.d.ts:14
 
 ___
 
@@ -132,7 +145,7 @@ Pick.creator
 
 #### Defined in
 
-node_modules/docx/build/file/core-properties/properties.d.ts:14
+node_modules/docx/build/file/core-properties/properties.d.ts:15
 
 ___
 
@@ -146,7 +159,7 @@ Pick.keywords
 
 #### Defined in
 
-node_modules/docx/build/file/core-properties/properties.d.ts:15
+node_modules/docx/build/file/core-properties/properties.d.ts:16
 
 ___
 
@@ -160,7 +173,7 @@ Pick.description
 
 #### Defined in
 
-node_modules/docx/build/file/core-properties/properties.d.ts:16
+node_modules/docx/build/file/core-properties/properties.d.ts:17
 
 ___
 
@@ -174,7 +187,7 @@ Pick.lastModifiedBy
 
 #### Defined in
 
-node_modules/docx/build/file/core-properties/properties.d.ts:17
+node_modules/docx/build/file/core-properties/properties.d.ts:18
 
 ___
 
@@ -188,7 +201,7 @@ Pick.revision
 
 #### Defined in
 
-node_modules/docx/build/file/core-properties/properties.d.ts:18
+node_modules/docx/build/file/core-properties/properties.d.ts:19
 
 ___
 
@@ -202,4 +215,4 @@ Pick.background
 
 #### Defined in
 
-node_modules/docx/build/file/core-properties/properties.d.ts:28
+node_modules/docx/build/file/core-properties/properties.d.ts:29

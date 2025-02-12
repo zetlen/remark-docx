@@ -241,7 +241,7 @@ export const mdastToDocx = async (
       // feature detection instead of environment detection, but if Buffer exists
       // it's probably Node. If not, return the Uint8Array that JSZip returns
       // when it doesn't detect a Node environment.
-      return typeof Buffer === "function" ? Buffer.from(bufOut) : bufOut;
+      return typeof Buffer === "function" ? Buffer.from(bufOut as unknown as string) : bufOut;
     case "blob":
       return Packer.toBlob(doc);
   }
@@ -392,7 +392,7 @@ const buildParagraph = ({ children }: mdast.Paragraph, ctx: Context) => {
 };
 
 const buildHeading = ({ children, depth }: mdast.Heading, ctx: Context) => {
-  let heading: HeadingLevel;
+  let heading: "Heading1" | "Heading2" | "Heading3" | "Heading4" | "Heading5" | "Heading6" | "Title" | undefined;
   switch (depth) {
     case 1:
       heading = HeadingLevel.TITLE;
@@ -466,8 +466,11 @@ const buildListItem = (
   return nodes;
 };
 
+type AlignmentTypeProp = keyof (typeof AlignmentType)
+type AlignmentTypeValue = (typeof AlignmentType)[AlignmentTypeProp]
+
 const buildTable = ({ children, align }: mdast.Table, ctx: Context) => {
-  const cellAligns: AlignmentType[] | undefined = align?.map((a) => {
+  const cellAligns: AlignmentTypeValue[] | undefined = align?.map((a) => {
     switch (a) {
       case "left":
         return AlignmentType.LEFT;
@@ -490,7 +493,7 @@ const buildTable = ({ children, align }: mdast.Table, ctx: Context) => {
 const buildTableRow = (
   { children }: mdast.TableRow,
   ctx: Context,
-  cellAligns: AlignmentType[] | undefined
+  cellAligns: AlignmentTypeValue[] | undefined
 ) => {
   return new TableRow({
     children: children.map((c, i) => {
@@ -502,7 +505,7 @@ const buildTableRow = (
 const buildTableCell = (
   { children }: mdast.TableCell,
   ctx: Context,
-  align: AlignmentType | undefined
+  align: AlignmentTypeValue | undefined
 ) => {
   const { nodes } = convertNodes(children, ctx);
   return new TableCell({
